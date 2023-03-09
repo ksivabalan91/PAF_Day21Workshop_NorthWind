@@ -52,9 +52,7 @@ public class CustomerController {
 
         if(opt.isEmpty()){
             return ResponseEntity.status(404).body(Json.createObjectBuilder().add("message", "Cannot find "+id).build().toString());
-        }
-
-        
-        return null;
+        }        
+        return ResponseEntity.ok().body(customerSvc.getOrdersByCustomerAsJson(id).toString());
     }
 }

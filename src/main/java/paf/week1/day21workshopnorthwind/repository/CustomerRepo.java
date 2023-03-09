@@ -26,19 +26,7 @@ public class CustomerRepo {
         final List<Customer> custList = new LinkedList<>();        
         final SqlRowSet rs = jdbcTemplate.queryForRowSet(allCustSQL,limit,offset);
         while (rs.next()){
-            Customer cust = new Customer();            
-            cust.setId(rs.getInt("id"));
-            cust.setCompany(rs.getString("company"));
-            cust.setLastName(rs.getString("last_name"));
-            cust.setFirstName(rs.getString("first_name"));
-            cust.setJobTitle(rs.getString("job_title"));
-            cust.setBusinessPhone(rs.getString("business_phone"));
-            cust.setFaxNumber(rs.getString("fax_number"));
-            cust.setAddress(rs.getString("address"));
-            cust.setCity(rs.getString("city"));
-            cust.setStateProvince(rs.getString("state_province"));
-            cust.setZipPostalCode(rs.getInt("zip_postal_code"));
-            cust.setCountryRegion(rs.getString("country_region"));
+            Customer cust = Customer.populate(rs);       
             custList.add(cust);
         }        
         return Collections.unmodifiableList(custList);
@@ -58,10 +46,10 @@ public class CustomerRepo {
         final List<Order> orderList = new LinkedList<>();  
         final SqlRowSet rs = jdbcTemplate.queryForRowSet(ordersByCust,id);
         while(rs.next()){
-            Order order = new Order();
-            order.setCustomerId(rs.getInt("id"));
-            order.setEmployeeId();
+            Order order = Order.populate(rs);
+            orderList.add(order);            
         }
+        return orderList;
     }
 
 

@@ -11,6 +11,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import paf.week1.day21workshopnorthwind.model.Customer;
+import paf.week1.day21workshopnorthwind.model.Order;
 import paf.week1.day21workshopnorthwind.repository.CustomerRepo;
 
 @Service
@@ -43,5 +44,22 @@ public class CustomerService {
             return Optional.of(Customer.populate(rs));
         }
         return Optional.empty();
+    }
+
+    public List<Order> getOrdersByCustomerAsList(int id){
+        return custRepo.getOrdersByCustomer(id);
+    }
+
+    public JsonArray getOrdersByCustomerAsJson(int id){
+        List<Order> orderList = custRepo.getOrdersByCustomer(id);
+        
+        JsonArrayBuilder jsonArrBuilder = Json.createArrayBuilder();
+        for(Order i:orderList){
+            jsonArrBuilder.add(i.toJson());            
+        }
+        JsonArray jsonArr = jsonArrBuilder.build();
+
+        return jsonArr;
+
     }
 }
